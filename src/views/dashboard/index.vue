@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-editor-container">
     <!--统计信息-->
-    <PanelGroupView @handleSetLineChartData="handleSetLineChartData" />
+    <PanelGroupView :data="panelTotalData" @handleSetLineChartData="handleSetLineChartData" />
 
     <!--折线图-->
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
@@ -25,6 +25,7 @@ export default {
   data() {
     return {
       lineChartData: null,
+      panelTotalData:null,
       type: "userInfo"
     };
   },
@@ -33,6 +34,7 @@ export default {
   },
   //控制数据
   methods: {
+    //当点击面板切换折线图
     handleSetLineChartData(type) {
       this.type = type;
       this.queryStatistics(type);
@@ -47,9 +49,22 @@ export default {
         .catch(err => {
           new Error(res);
         });
+    },
+    //查询面板的统计信息
+    queryPanelTotal(){
+      this.$store
+      .dispatch("statistics/panelTotal")
+      .then(res=>{
+        this.panelTotalData=res
+      })
+      .catch(err=>{
+        new Error(err);
+      })
     }
   },
   mounted() {
+    console.log("渲染")
+    this.queryPanelTotal()
     //请求获取统计信息数据（默认为用户统计信息）
     this.$nextTick(function(){
       this.queryStatistics(this.type)

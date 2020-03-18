@@ -1,7 +1,7 @@
 <template>
   <el-row :gutter="40" class="panel-group">
     <!--第一个统计框-->
-    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col" v-if="data">
       <div class="card-panel" @click="handleSetLineChartData('userInfo')">
         <!--左侧图标-->
         <div class="card-panel-icon-wrapper icon-people">
@@ -9,14 +9,37 @@
         </div>
         <!--右边文本-->
         <div class="card-panel-description">
-          <div class="card-panel-text">第一个统计框</div>
+          <div class="card-panel-text">用户统计</div>
           <!--开始值，结束值，间隔时间-->
-          <count-to :start-val="0" :end-val="102400" :duration="2600" class="card-panel-num" />
+          <count-to
+            :start-val="0"
+            :end-val="data.userTotal"
+            :duration="2600"
+            class="card-panel-num"
+          />
         </div>
       </div>
     </el-col>
     <!--第二个统计框-->
-    
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col" v-if="data">
+      <div class="card-panel" @click="handleSetLineChartData('orderInfo')">
+        <!--左侧图标-->
+        <div class="card-panel-icon-wrapper icon-order">
+          <svg-icon icon-class="order" class-name="card-panel-icon" />
+        </div>
+        <!--右边文本-->
+        <div class="card-panel-description">
+          <div class="card-panel-text">订单数量</div>
+          <!--开始值，结束值，间隔时间-->
+          <count-to
+            :start-val="0"
+            :end-val="data.orderTotal"
+            :duration="2600"
+            class="card-panel-num"
+          />
+        </div>
+      </div>
+    </el-col>
   </el-row>
 </template>
 
@@ -26,8 +49,13 @@ import CountTo from "vue-count-to";
 
 export default {
   name: "PannelGroupView",
-  components:{
-      CountTo
+  components: {
+    CountTo
+  },
+  props: {
+    data: {
+      type: Object
+    }
   },
   methods: {
     //控制下面的折线图
@@ -66,7 +94,7 @@ export default {
         background: #40c9c6;
       }
 
-      .icon-message {
+      .icon-order {
         background: #36a3f7;
       }
 
