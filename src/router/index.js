@@ -79,7 +79,7 @@ export const asyncRoutes = [
     children: [
       {
         path: 'table',
-        name: 'Table',
+        name: 'OrderTable',
         component: () => import('@/views/table/index'),
         meta: { title: '表格', icon: 'table', roles: ['admin'] }
       },
